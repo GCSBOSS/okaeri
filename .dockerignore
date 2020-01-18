@@ -1,0 +1,9 @@
+/node_modules/
+/.nyc_output/
+/coverage
+/builds
+/*.log
+/.git/
+/test/
+/*.md
+/.*
