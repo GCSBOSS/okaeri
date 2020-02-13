@@ -1,12 +1,8 @@
 
-
 port = 7667
 
 [hooks]
 onCreateAccount = false
-
-[log]
-file = './events.log'
 
 [mongo]
 url = 'mongodb://localhost:27017/'
