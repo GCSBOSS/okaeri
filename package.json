@@ -33,7 +33,7 @@
     "okaeri": "bin/okaeri.js"
   },
   "dependencies": {
-    "mongo-redux": "^0.2.0",
+    "mongo-redux": "^0.2.1",
     "muhb": "^3.0.0",
     "nodecaf": "^0.8.1",
     "valinor": "^0.2.2"
