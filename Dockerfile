@@ -17,4 +17,4 @@ COPY package*.json ./
 RUN npm i -P
 COPY . .
 
-CMD ["node", "./bin/okaeri.js"]
+ENTRYPOINT ["node", "./bin/okaeri.js"]
