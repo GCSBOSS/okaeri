@@ -5,6 +5,8 @@ const { context } = require('muhb');
 const Mongo = require('mongo-redux');
 const init = require('../lib/main');
 
+process.env.NODE_ENV = 'testing';
+
 const mongoConf = {
     url: 'mongodb://' + (process.env.MONGO_HOST || 'localhost:27017'),
     name: 'Okaeri'
