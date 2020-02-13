@@ -1,15 +1,13 @@
 FROM 'node:13-alpine'
 ENV NODE_ENV production
 
-EXPOSE 80
-# VOLUME /usr/src/app/events.log
-# VOLUME /usr/src/app/conf.toml
+EXPOSE 7667
 
-WORKDIR /usr/src/app
+WORKDIR /okaeri
 
 RUN addgroup -g 2000 -S okaeri && \
     adduser -u 2000 -S okaeri -G okaeri && \
-    chown okaeri:okaeri /usr/src/app
+    chown okaeri:okaeri /okaeri
 
 USER okaeri
 
