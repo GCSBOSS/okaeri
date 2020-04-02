@@ -26,10 +26,21 @@ The following endpoints are supported so far:
 
 - `POST /account`: Create a new account
   - Expects a JSON payload contaning a `name` string and a strong `password` string.
+  - If successful responds with account id
 
 
 - `POST /auth`: Verifies whether a password and name match an active account.
   - Expects a JSON payload contaning a correct `name` and `password` for the account being verified.
+  - If successful responds with account id
+
+- `GET /account/:id`: Fetch given account info
+  - Expects the account id as parameter (is is returned on acocunt creation).
+  - If successful responds with JSON contaiing accout info.
+
+- `GET /identity`: Fetch your account data based on header
+  - Expects the account id as a header (see configuration `identityHeader`).
+  - If successful responds with JSON contaiing accout info.
+
 
 ## Configuration Reference
 
@@ -38,6 +49,8 @@ This are all the avaiable settings to be defined in your `conf.toml`.
 ```toml
 # Define the server port
 port = 7667 # Defaults to 7667
+
+identityHeader = 'X-My-Id' # defaults to empty
 
 # Setup your connection to mongodb
 [mongo]

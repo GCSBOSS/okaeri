@@ -1,6 +1,6 @@
 {
   "name": "okaeri",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "RESTful microservice for managing user accounts and authentication",
   "main": "lib/main.js",
   "scripts": {
