@@ -29,7 +29,7 @@ before(async function(){
 
 beforeEach(async function(){
     app = init();
-    app.setup({ mongo: mongoConf });
+    app.setup({ mongo: mongoConf, identityHeader: 'id' });
     await app.start();
 });
 
@@ -101,6 +101,29 @@ describe('Okaeri', function(){
             await base.post('account', json, { name: 'test-a', password: 'foobarbaz' });
             let { assert } = await base.post('auth', json, { name: 'test-a', password: 'foobarbaz' });
             assert.status.is(200);
+        });
+
+    });
+
+    describe('Fetching account info', function(){
+
+        it('Should fail when account doesn\'t exist', async function(){
+            let { assert } = await base.get('account/none');
+            assert.status.is(404);
+            assert.body.contains('Unknown');
+        });
+
+        it('Should return account info', async function(){
+            let { body } = await base.post('account', json, { name: 'test-a', password: 'foobarbaz' });
+            let { assert } = await base.get('account/' + body);
+            assert.status.is(200);
+        });
+
+        it('Should return account info by header', async function(){
+            let { body } = await base.post('account', json, { name: 'test-a', password: 'foobarbaz' });
+            let { assert } = await base.get('identity', { ...json, id: body });
+            assert.status.is(200);
+            assert.body.json.match('name', 'test-a');
         });
 
     });
