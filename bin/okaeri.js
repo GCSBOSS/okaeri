@@ -1,7 +1,4 @@
 #!node
 
-const { run } = require('nodecaf');
-run({
-    init: require('../lib/main'),
-    confPath: process.argv[2]
-});
+const run = require('nodecaf-run');
+run({ conf: process.argv[2] });

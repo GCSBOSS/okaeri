@@ -1,18 +1,13 @@
-FROM 'node:13-alpine'
-ENV NODE_ENV production
 
-EXPOSE 7667
-
-WORKDIR /okaeri
-
-CMD node ./bin/okaeri.js
-
-RUN addgroup -g 2000 -S okaeri && \
-    adduser -u 2000 -S okaeri -G okaeri && \
-    chown okaeri:okaeri /okaeri
-
-USER okaeri
+FROM node:13-alpine
 
 COPY package*.json ./
 RUN npm i -P
 COPY . .
+
+RUN mkdir /dist
+RUN cp -r ./lib /dist/
+RUN cp -r ./node_modules /dist/
+
+FROM gcsboss/nodecaf
+COPY --from=0 /dist /app

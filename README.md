@@ -7,18 +7,18 @@ The RESTful microservice for managing user accounts and authentication
 - [Complete event log](#logging)
 - [Webhooks for all important events](#webhooks)
 
-## Get Started
+## Run Locally
 
-1. Install with: `npm i -g okaeri`.
-2. Optionally point `OKAERI_CONF` env var to a TOML [config file](#configuration).
+1. Install Nodecaf CLI with `npm i -g okaeri`
+2. Optionally create a TOML [config file](#configuration).
 3. Setup your MongoDB instance on localhost:27017
-4. Run in the terminal with: `okaeri`.
+4. Run in the terminal with: `okaeri /my/conf/file.toml`.
 
 ## Get Started with Docker
 
 The official image repository in Docker Hub is `gcsboss/okaeri`.
 
-Run like this: `docker run -p 7667:7667 -v /your/conf.toml:/usr/src/app/conf.toml gcsboss/okaeri`
+Run like this: `docker run -p 7667:7667 -v /your/conf.toml:/conf.toml gcsboss/okaeri -c /conf.toml`
 
 ## API Reference
 
