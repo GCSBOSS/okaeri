@@ -1,4 +1,4 @@
 #!node
 
 const run = require('nodecaf-run');
-run({ conf: process.argv[2] });
+run({ reload: true, conf: process.argv[2] });
