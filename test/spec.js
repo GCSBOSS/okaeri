@@ -2,7 +2,6 @@ const assert = require('assert');
 const http = require('http');
 const { EventEmitter } = require('events');
 const { context } = require('muhb');
-const Mongo = require('mongo-redux');
 const init = require('../lib/main');
 
 process.env.NODE_ENV = 'testing';
@@ -14,7 +13,7 @@ const mongoConf = {
 
 let
     app, base = context('http://localhost:7667'),
-    mongo = new Mongo(),
+    mongo = null,
     json = { 'Content-Type': 'application/json' },
     gotHook = new EventEmitter(),
     mockServer = http.createServer(function(req, res){
@@ -22,8 +21,7 @@ let
         res.end();
     });
 
-before(async function(){
-    await mongo.connect(mongoConf);
+before(function(){
     mockServer.listen(1234);
 })
 
@@ -31,15 +29,15 @@ beforeEach(async function(){
     app = init();
     app.setup({ mongo: mongoConf, identityHeader: 'id' });
     await app.start();
+    mongo = app.global.mongo;
 });
 
 afterEach(async function(){
-    await mongo.delete('Account', 'name', 'test-a');
+    await mongo.deleteOne({ name: 'test-a' });
     await app.stop();
 });
 
-after(async function(){
-    await mongo.close();
+after(function(){
     mockServer.close();
 });
 
@@ -54,9 +52,10 @@ describe('Okaeri', function(){
         });
 
         it('Should create account in database', async function(){
+            assert(!await mongo.findOne({ name: 'test-a' }));
             let { assert: test } = await base.post('account', json, { name: 'test-a', password: 'foobarbaz' });
             test.status.is(200);
-            assert(await mongo.exists('Account', 'name', 'test-a'));
+            assert(await mongo.findOne({ name: 'test-a' }));
         });
 
         it('Should fail when account already exists', async function(){
@@ -69,6 +68,7 @@ describe('Okaeri', function(){
         it('Should trigger webhook when [hooks.onCreateAccount = URL]', function(done){
             (async function(){
                 await app.restart({ hooks: { onCreateAccount: 'http://localhost:1234' } });
+                mongo = app.global.mongo;
                 await base.post('account', json, { name: 'test-a', password: 'foobarbaz' });
                 gotHook.once('new-account', done);
             })();
@@ -86,14 +86,14 @@ describe('Okaeri', function(){
 
         it('Should fail when account doesn\'t exist', async function(){
             let { assert } = await base.post('auth', json, { name: 'test-a', password: 'my-pass' });
-            assert.status.is(400);
+            assert.status.is(401);
             assert.body.contains('failed');
         });
 
         it('Should fail when password is wrong', async function(){
             await base.post('account', json, { name: 'test-a', password: 'foobarbaz' });
             let { assert } = await base.post('auth', json, { name: 'test-a', password: 'wrong-pass' });
-            assert.status.is(400);
+            assert.status.is(401);
             assert.body.contains('failed');
         });
 
@@ -110,7 +110,6 @@ describe('Okaeri', function(){
         it('Should fail when account doesn\'t exist', async function(){
             let { assert } = await base.get('account/none');
             assert.status.is(404);
-            assert.body.contains('Unknown');
         });
 
         it('Should return account info', async function(){
