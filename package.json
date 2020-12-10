@@ -1,7 +1,7 @@
 {
   "name": "okaeri",
-  "version": "0.0.6",
-  "description": "RESTful microservice for managing user accounts and authentication",
+  "version": "0.1.0",
+  "description": "Every standard functionallity regarding account management and authentication in one library",
   "main": "lib/main.js",
   "scripts": {
     "test": "mocha -b --no-diff test/*.js",
