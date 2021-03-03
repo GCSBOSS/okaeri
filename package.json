@@ -1,6 +1,6 @@
 {
   "name": "okaeri",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Every standard functionallity regarding account management and authentication in one library",
   "main": "lib/main.js",
   "scripts": {
