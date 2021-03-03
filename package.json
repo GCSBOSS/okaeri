@@ -27,7 +27,7 @@
   },
   "homepage": "https://gitlab.com/GCSBOSS/okaeri#readme",
   "dependencies": {
-    "mongodb": "^3.6.3",
+    "nodecaf-mongo": "0.0.1",
     "valinor": "^0.3.0"
   }
 }
