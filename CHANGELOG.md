@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.1.2] - 2021-03-04
+
+### Added
+- function to check whether an account belongs to any given groups
+
+### Fixed
+- `accounts` field from group not returned correctly on `readGroup()`
+
 ## [v0.1.1] - 2021-03-03
 
 ### Added
