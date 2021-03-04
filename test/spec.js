@@ -282,13 +282,18 @@ describe('Okaeri', function(){
             let { id: gid } = await okaeri.createGroup({ name: 'g1', code: 'g1' });
             let res = await okaeri.addAccountToGroup(id, gid);
             assert(res.ok);
+            let { group } = await okaeri.readGroup(gid);
+            assert.strictEqual(group.accounts[0].name, 'test-a');
         });
 
         it('Should remove account to group', async function(){
             let { id } = await okaeri.createAccount({ name: 'test-a', password: 'foobarbaz' });
             let { id: gid } = await okaeri.createGroup({ name: 'g1', code: 'g1' });
+            await okaeri.addAccountToGroup(id, gid);
             let res = await okaeri.removeAccountFromGroup(id, gid);
             assert(res.ok);
+            let { group } = await okaeri.readGroup(gid);
+            assert.strictEqual(group.accounts.length, 0);
         });
 
     });
