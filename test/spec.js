@@ -298,4 +298,25 @@ describe('Okaeri', function(){
 
     });
 
+    describe('Check if account belongs to group', function(){
+
+        it('Should return whether account is in any group sent', async function(){
+            let { id } = await okaeri.createAccount({ name: 'test-a', password: 'foobarbaz' });
+            await okaeri.createGroup({ name: 'g1', code: 'g1' });
+            let { id: i2 } = await okaeri.createGroup({ name: 'g2', code: 'g2' });
+
+
+            let r1 = await okaeri.isAccountInAnyGroup(id, [ 'g1', 'g2' ]);
+            assert(!r1.ok);
+
+            await okaeri.addAccountToGroup(id, i2);
+            let r2 = await okaeri.isAccountInAnyGroup(id, [ 'g2' ]);
+            assert(r2.ok);
+
+            let r3 = await okaeri.isAccountInAnyGroup(id, [ 'g1', 'g2' ]);
+            assert(r3.ok);
+        });
+
+    });
+
 });
