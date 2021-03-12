@@ -10,6 +10,8 @@ include:
 
 # Make quality report downloadable
 code_quality:
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
   artifacts:
     paths: [gl-code-quality-report.json]
 
@@ -43,27 +45,6 @@ unit-test:
   script:
     - npm i .
     - npm run-script coverage
-
-# # Build and Push Docker image.
-# build-image:
-#   image: docker:19.03.1
-#   stage: build
-#   needs:
-#     - lint-js
-#     - unit-test
-#   tags:
-#     - docker
-#   only:
-#     - tags
-#   except:
-#     variables:
-#       - $CI_COMMIT_TAG =~ /beta/
-#   script:
-#     - docker login -u gcsboss -p $HUB_PUSH_TOKEN
-#     - docker build -t gcsboss/okaeri:$CI_COMMIT_REF_NAME .
-#     - docker build -t gcsboss/okaeri:latest .
-#     - docker push gcsboss/okaeri:$CI_COMMIT_REF_NAME
-#     - docker push gcsboss/okaeri:latest
 
 # Publish package to NPM.
 publish:
