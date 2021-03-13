@@ -28,6 +28,6 @@
   "homepage": "https://gitlab.com/GCSBOSS/okaeri#readme",
   "dependencies": {
     "nodecaf-mongo": "0.0.1",
-    "valinor": "^0.3.0"
+    "valinor": "^0.3.1"
   }
 }
